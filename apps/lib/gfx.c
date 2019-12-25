@@ -96,7 +96,11 @@ void gfx_puts_trans(context_t* context, int x, int y, uint32_t color, const char
 void gfx_blit(context_t* context, int x, int y, int width, int height, uint32_t* src) {
 	for (int i=0; i<height; i++) {
 		for (int j=0; j<width; j++) {
-			CONTEXT_32[FIRST_PIXEL(x+j, y+i)] = *(src + (j + i * width));
+		  int new_x = x+j;
+		  int new_y = y+i;
+		  CLIP_X(new_x);
+		  CLIP_Y(new_y);
+			CONTEXT_32[FIRST_PIXEL(new_x, new_y)] = *(src + (j + i * width));
 		}
 	}
 }
